@@ -144,6 +144,7 @@ public final class Main {
             processor.registerProcessor("IWorker", new IWorkerService.Processor<>(new IWorkerServiceImpl(attributes)));
             processor.registerProcessor("IDataFrame", new IDataFrameService.Processor<>(new IDataFrameServiceImpl(attributes)));
             processor.registerProcessor("IProperties", new IPropertiesService.Processor<>(new IPropertiesServiceImpl(attributes)));
+            //processor.registerProcessor("IUI", new IUIService.Processor<>(new IUIServiceImpl(attributes)));
         } catch (Exception ex) {
             LOGGER.error("Error starting services, aborting", ex);
             System.exit(-1);
