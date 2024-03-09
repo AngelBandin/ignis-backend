@@ -25,7 +25,6 @@ import org.ignis.scheduler.model.IContainerInfo;
  * @author César Pomar
  */
 public final class IContainer {
-
     private final long id;
     private final long cluster;
     private final ITunnel tunnel;
@@ -33,7 +32,6 @@ public final class IContainer {
     private final IContainerInfo containerRequest;
     private IContainerInfo info;
     private int resets;
-
     public IContainer(long id, long cluster, ITunnel tunnel, IProperties properties, IContainerInfo containerRequest) {
         this.id = id;
         this.cluster = cluster;
