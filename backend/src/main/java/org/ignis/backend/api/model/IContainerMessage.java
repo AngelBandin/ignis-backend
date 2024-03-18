@@ -1,11 +1,11 @@
 package org.ignis.backend.api.model;
 
-import org.ignis.backend.cluster.ICluster;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.ignis.backend.cluster.IContainer;
-import org.ignis.backend.cluster.ITunnel;
-import org.ignis.properties.IProperties;
 import org.ignis.scheduler.model.IContainerInfo;
 
+
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class IContainerMessage {
     private final long id;
     private final long cluster;
@@ -23,6 +23,16 @@ public class IContainerMessage {
         this.image = aux.getImage();
         this.command= aux.getCommand();
         this.resets= c.getResets();
+    }
+    //contructor para pruebas
+    public IContainerMessage(Long c){
+        this.id = c;
+        this.cluster= c;
+        this.infoid = "IClusterPrueba";
+        this.host = "IClusterPrueba";
+        this.image = "IClusterPrueba";
+        this.command= "IClusterPrueba";
+        this.resets= c.byteValue();
     }
 
     public long getId() {

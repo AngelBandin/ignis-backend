@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'application'
-    id 'org.springframework.boot' version '2.7.6'
+    id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
 
 }
@@ -64,8 +64,6 @@ dependencies {
     implementation group: 'com.github.mwiede', name: 'jsch', version: '0.2.1'
     implementation group: 'org.hipparchus', name: 'hipparchus-core', version: '2.1'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.http.codec:spring-web-reactive-codec-sse'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'io.projectreactor:reactor-core:3.6.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -73,6 +71,12 @@ dependencies {
     //testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.3.1'
     //testCompile group: 'org.mockito', name: 'mockito-core', version: '2.22.0'
     //testRuntimeOnly group : 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.3.1'
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 /*

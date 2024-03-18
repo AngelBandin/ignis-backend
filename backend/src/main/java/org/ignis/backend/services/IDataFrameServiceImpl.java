@@ -28,6 +28,7 @@ import org.ignis.rpc.ISource;
 import org.ignis.rpc.driver.IDataFrameId;
 import org.ignis.rpc.driver.IDataFrameService;
 import org.ignis.rpc.driver.IDriverException;
+import org.springframework.boot.SpringApplication;
 
 /**
  * @author César Pomar

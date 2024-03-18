@@ -1,25 +1,18 @@
 package org.ignis.backend.api.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.ignis.backend.cluster.ICluster;
 import org.ignis.backend.cluster.IContainer;
-import org.ignis.backend.cluster.ISSH;
-import org.ignis.backend.cluster.IWorker;
-import org.ignis.backend.cluster.helpers.cluster.IClusterCreateHelper;
-import org.ignis.backend.cluster.tasks.ILock;
-import org.ignis.backend.cluster.tasks.ITask;
-import org.ignis.backend.cluster.tasks.ITaskGroup;
-import org.ignis.backend.cluster.tasks.IThreadPool;
-import org.ignis.backend.exception.IgnisException;
-import org.ignis.properties.IKeys;
-import org.ignis.properties.IProperties;
-import org.ignis.scheduler.IScheduler;
 
+
+
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IClusterMessage {
 
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class IClusterMessage {
     private final String name;
     private final long id;
     //private final IProperties properties;
@@ -33,6 +26,15 @@ public class IClusterMessage {
         this.id = c.getId();
         //this.tasks = c.getTasks();
         this.containers = convertir(c.getContainers());
+    }
+
+    //constructor provisional para pruebas
+    public IClusterMessage(Long c){
+        this.name = "ClusterPrueba";
+        this.id = c;
+        //this.tasks = c.getTasks();
+        this.containers = new ArrayList<>();
+        this.containers.add(new IContainerMessage(c));
     }
 
     public String getName() {

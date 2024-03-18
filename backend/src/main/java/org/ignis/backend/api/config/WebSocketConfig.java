@@ -1,4 +1,4 @@
-package org.ignis.backend.api.config;
+/*package org.ignis.backend.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -27,4 +27,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
 
     }
 
-}
+}*/
