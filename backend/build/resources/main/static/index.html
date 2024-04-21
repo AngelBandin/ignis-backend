@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizaciones en tiempo real con EventSource</title>
+</head>
+<body>
+<h1>Mensajes en tiempo real</h1>
+<p>Aquí se mostrarán los mensajes recibidos del servidor.</p>
+<ul id="mensajes"></ul>
+
+<script>
+    const eventSource = new EventSource('http://localhost:8080/events/ICluster');
+
+    eventSource.onmessage = function (event) {
+        console.log('Mensaje recibido:', event.data);
+        // Actualiza la página con la información recibida
+        // En lugar de recargar la página, puedes actualizar solo la sección que muestra los mensajes
+        const mensaje = event.data;
+        const listaMensajes = document.getElementById('mensajes');
+        const nuevoMensaje = document.createElement('li');
+        nuevoMensaje.textContent = mensaje;
+        listaMensajes.appendChild(nuevoMensaje);
+    };
+</script>
+</body>
+</html>
