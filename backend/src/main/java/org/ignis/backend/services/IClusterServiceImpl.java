@@ -29,7 +29,6 @@ import org.ignis.properties.IProperties;
 import org.ignis.rpc.driver.IClusterService;
 import org.ignis.rpc.driver.IDriverException;
 import org.ignis.scheduler.IScheduler;
-import org.springframework.boot.SpringApplication;
 
 import java.util.List;
 
