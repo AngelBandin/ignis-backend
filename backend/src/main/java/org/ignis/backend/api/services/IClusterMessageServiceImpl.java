@@ -40,16 +40,24 @@ public class IClusterMessageServiceImpl implements IClusterMessageService.Iface{
     }*/
 
     // Método para simular la obtención de datos del hilo endpoint
-    private List<IClusterMessage> obtenerDatosDelHiloEndpoint() {
+    private List<IClusterMessage> obtenerDatosDelHiloEndpoint(int c) {
         List<IClusterMessage> listaX = new ArrayList<>();
-        for (long i = 0; i < 5; i++) {
+        for (long i = 0; i < c; i++) {
             listaX.add(new IClusterMessage(i));
         }
+        return listaX;
+    }
+    private List<IClusterMessage> obtenerDatosDelHiloEndpoint() {
+        List<IClusterMessage> listaX = new ArrayList<>();
+            listaX.add(new IClusterMessage((long)5));
+            synchronized (clusterObject.getLock()) {
+                result = clusterObject.start();
+            }
         return listaX;
     }
 
     @Override
     public List<IClusterMessage> sendData() throws TException {
-        return obtenerDatosDelHiloEndpoint();
+        return obtenerDatosDelHiloEndpoint(5);
     }
 }

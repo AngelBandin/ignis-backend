@@ -48,7 +48,9 @@ public final class IClusterServiceImpl extends IService implements IClusterServi
         this.scheduler = scheduler;
     }
 
+
     @Override
+
     public void start(long id) throws TException {
         try {
             ICluster clusterObject = attributes.getCluster(id);
