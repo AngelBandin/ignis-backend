@@ -86,6 +86,12 @@ public class ITaskGroup {
     public List<ITaskGroup> getSubTasksGroup() {
         return subTasksGroup;
     }
+    public List<ITaskGroup> getDepencencies() {
+        return depencencies;
+    }
+    public List<ITask> getTasks() {
+        return tasks;
+    }
 
     public final ITaskContext start(IThreadPool pool) throws IgnisException {
         ITaskContext context = new ITaskContext();

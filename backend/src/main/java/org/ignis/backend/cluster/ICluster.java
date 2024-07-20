@@ -130,5 +130,8 @@ public final class ICluster {
     public ILazy<Void> destroy(IScheduler scheduler) {
         return new IClusterDestroyHelper(this, properties).destroy(scheduler);
     }
-
+    //imagino que riesgo de inseguridad o algo asi. mirar si cambiar luego
+    public List<IWorker> getWorkers() {
+        return this.workers;
+    }
 }

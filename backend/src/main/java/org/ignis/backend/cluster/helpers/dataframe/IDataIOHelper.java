@@ -26,8 +26,13 @@ import org.ignis.backend.cluster.tasks.executor.ISaveAsJsonFileTask;
 import org.ignis.backend.cluster.tasks.executor.ISaveAsObjectFile;
 import org.ignis.backend.cluster.tasks.executor.ISaveAsTextFileTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -49,6 +54,11 @@ public final class IDataIOHelper extends IDataHelper {
         }
         LOGGER.info(log() + "partitions(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            LOGGER.info(log()+"Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.<Long>get("result");
@@ -66,10 +76,8 @@ public final class IDataIOHelper extends IDataHelper {
                 "path=" + path +
                 ", compression=" + compression +
                 ") registered");
-        return () -> {
-            builder.build().start(data.getPool());
-            return null;
-        };
+
+        return getVoidILazy(builder);
     }
 
     public ILazy<Void> saveAsTextFile(String path) throws IgnisException {
@@ -82,10 +90,7 @@ public final class IDataIOHelper extends IDataHelper {
         LOGGER.info(log() + "partitions(" +
                 "path=" + path +
                 ") registered");
-        return () -> {
-            builder.build().start(data.getPool());
-            return null;
-        };
+        return getVoidILazy(builder);
     }
 
     public ILazy<Void> saveAsJsonFile(String path, boolean pretty) throws IgnisException {
@@ -99,6 +104,17 @@ public final class IDataIOHelper extends IDataHelper {
                 "path=" + path +
                 ", pretty=" + pretty +
                 ") registered");
+        return getVoidILazy(builder);
+    }
+
+
+
+    private ILazy<Void> getVoidILazy(ITaskGroup.Builder builder) throws IgnisException {
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             builder.build().start(data.getPool());
             return null;

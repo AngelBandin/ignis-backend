@@ -52,6 +52,7 @@ public final class IWorkerImportDataHelper extends IWorkerHelper {
         LOGGER.info(log() + "importDataFrame(" +
                 "source=" + source.getName() +
                 ") registered -> " + target.getName());
+        //actualizar dataframe o worker
         return target;
     }
 
@@ -71,6 +72,7 @@ public final class IWorkerImportDataHelper extends IWorkerHelper {
                 "source=" + source.getName() +
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        //dataframe o taksgrup o worker entero
         return target;
     }
 

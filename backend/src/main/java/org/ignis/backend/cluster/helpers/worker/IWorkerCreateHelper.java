@@ -27,6 +27,10 @@ import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.*;
+
 /**
  * @author César Pomar
  */
@@ -71,6 +75,11 @@ public final class IWorkerCreateHelper extends IWorkerHelper {
         ITaskGroup taskGroup = builder.build();
         taskGroup.getSubTasksGroup().add(commBuilder.build());
 
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return taskGroup;
     }
 

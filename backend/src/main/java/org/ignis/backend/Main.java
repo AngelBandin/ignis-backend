@@ -57,6 +57,7 @@ public final class Main {
                 LOGGER.warn("User options load error", ex);
             }
             props.rmProperty(IKeys.OPTIONS);
+
         }
         //Submitter home may be different so we ignore it.
         props.setProperty(IKeys.HOME, home);

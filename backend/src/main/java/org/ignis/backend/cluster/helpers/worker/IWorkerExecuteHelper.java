@@ -46,6 +46,9 @@ public class IWorkerExecuteHelper extends IWorkerHelper {
         LOGGER.info(log() + "execute(" +
                 "src=" + srcToString(src) +
                 ") registered");
+        //actualizar taskgroup de worker aunque no se si de cluster.
+        //o
+        //actualizar worker
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
             return null;

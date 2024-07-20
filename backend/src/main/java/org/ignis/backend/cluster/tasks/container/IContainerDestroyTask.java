@@ -24,8 +24,13 @@ import org.ignis.properties.IKeys;
 import org.ignis.scheduler.IScheduler;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.ignis.backend.ui.DBUpdateService.destroyManyContainers;
+import static org.ignis.backend.ui.DBUpdateService.upsertManyContainers;
 
 /**
  * @author César Pomar
@@ -50,7 +55,7 @@ public final class IContainerDestroyTask extends IContainerTask {
             IContainer container = containers.get(i);
             if (container.getInfo() == null) {
                 if (Boolean.getBoolean(IKeys.DEBUG)) {
-                    LOGGER.info(log() + "Continer " + i + " is not started");
+                    LOGGER.info(log() + "Container " + i + " is not started");
                 }
                 return;
             }
@@ -61,19 +66,19 @@ public final class IContainerDestroyTask extends IContainerTask {
                     LOGGER.info(log() + "Container " + i + " is not launched yet");
                     break;
                 case RUNNING:
-                    LOGGER.info(log() + "Continer " + i + " is running");
+                    LOGGER.info(log() + "Container " + i + " is running");
                     break;
                 case ERROR:
-                    LOGGER.info(log() + "Continer " + i + " has an error");
+                    LOGGER.info(log() + "Container " + i + " has an error");
                     break;
                 case FINISHED:
-                    LOGGER.info(log() + "Continer " + i + " is finieshed");
+                    LOGGER.info(log() + "Container " + i + " is finished");
                     break;
                 case DESTROYED:
-                    LOGGER.info(log() + "Continer " + i + " already destroyed");
+                    LOGGER.info(log() + "Container " + i + " already destroyed");
                     return;
                 case UNKNOWN:
-                    LOGGER.info(log() + "Continer " + i + " has a unknown status");
+                    LOGGER.info(log() + "Container " + i + " has a unknown status");
                     break;
             }
         }
@@ -97,6 +102,17 @@ public final class IContainerDestroyTask extends IContainerTask {
         for (int i = 0; i < containers.size(); i++) {
             containers.get(i).setInfo(null);
         }
+        try {
+
+            List<Long> containerids = containers.stream()
+                    .map(IContainer::getId)  // Extract the id using method reference
+                    .toList();
+            //upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containers);
+            destroyManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containerids);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating container: "+container.getId());
+        }
+
     }
 
 }

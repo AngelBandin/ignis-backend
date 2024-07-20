@@ -22,9 +22,14 @@ import org.ignis.backend.cluster.IWorker;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.*;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.rpc.ISource;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -48,6 +53,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", delim=" + delim +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -63,6 +69,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 ", partitions=" + partitions +
                 ", delim=" + delim +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -76,6 +83,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
         LOGGER.info(log() + "textFile(" +
                 "path=" + path +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -90,6 +98,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", partitions=" + partitions +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -104,6 +113,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
         LOGGER.info(log() + "partitionObjectFile(" +
                 "path=" + path +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -119,6 +129,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -133,6 +144,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
         LOGGER.info(log() + "partitionTextFile(" +
                 "path=" + path +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -148,6 +160,7 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", objectMapping=" + objectMapping +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
         return target;
     }
 
@@ -163,6 +176,13 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        //añadir dependency a taskgroup dataframe o worker entero
+
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return target;
     }
 

@@ -60,6 +60,9 @@ public class IWorkerCallHelper extends IWorkerHelper {
         LOGGER.info(log() + "voidCall(" +
                 "src=" + srcToString(src) +
                 ") registered");
+
+        //update worker give dependency
+
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
             return null;
@@ -79,6 +82,8 @@ public class IWorkerCallHelper extends IWorkerHelper {
         LOGGER.info(log() + "voidCall(" +
                 "src=" + srcToString(src) +
                 ") registered");
+
+        //no en prinicipio
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
             return null;
@@ -93,6 +98,10 @@ public class IWorkerCallHelper extends IWorkerHelper {
         }
         IDataFrame target = worker.createDataFrame(worker.getExecutors(), builder.build());
         setName(true, src, false);
+
+        //añadir Dataframe a worker
+        //o
+        //update de worker
         LOGGER.info(log() + "call(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
@@ -110,6 +119,8 @@ public class IWorkerCallHelper extends IWorkerHelper {
         }
         IDataFrame target = source.createDataFrame(builder.build());
         setName(true, src, true);
+
+        //creo que lo mismo. que arriba o no
         LOGGER.info(log() + "map(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());

@@ -109,6 +109,7 @@ public final class IBackendServiceImpl extends IService implements IBackendServi
             if (port == 0){
                 return;
             }
+
             healthEndpoint = HttpServer.create(new InetSocketAddress(port), 0);
             healthEndpoint.createContext("/", exchange -> {
                 exchange.sendResponseHeaders(200, -1);

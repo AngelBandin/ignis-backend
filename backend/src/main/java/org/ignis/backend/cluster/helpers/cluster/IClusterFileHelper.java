@@ -46,7 +46,10 @@ public final class IClusterFileHelper extends IClusterHelper {
         }
         ITaskGroup group = builder.build();
         cluster.getTasks().getSubTasksGroup().add(group);
-
+        //update containers and workers with containers
+        //update subtaskgroup of taskgroup
+        //or
+        //update whole cluster
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();
             dummy.getSubTasksGroup().add(group);
@@ -63,7 +66,10 @@ public final class IClusterFileHelper extends IClusterHelper {
         }
         ITaskGroup group = builder.build();
         cluster.getTasks().getSubTasksGroup().add(group);
-
+        //update containers and workers with containers
+        //update subtaskgroup of taskgroup
+        //or
+        //update whole cluster
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();
             dummy.getSubTasksGroup().add(group);

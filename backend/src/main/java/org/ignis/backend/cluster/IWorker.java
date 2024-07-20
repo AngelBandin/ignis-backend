@@ -144,4 +144,8 @@ public final class IWorker {
         };
     }
 
+    //luego podria cambiarlo mejor
+    public List<IDataFrame> getDataFrames() {
+        return this.dataFrames;
+    }
 }

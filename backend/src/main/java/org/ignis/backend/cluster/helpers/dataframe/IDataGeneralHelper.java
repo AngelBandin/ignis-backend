@@ -22,9 +22,14 @@ import org.ignis.backend.cluster.helpers.worker.IWorkerImportDataHelper;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.*;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.rpc.ISource;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -47,6 +52,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "map(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -60,6 +70,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "filter(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -73,6 +88,12 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "flatmap(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -86,6 +107,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "keyBy(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -99,6 +125,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapWithIndex(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -112,6 +143,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapPartitions(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -125,6 +161,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapPartitionsWithIndex(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -138,6 +179,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapExecutor(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -151,6 +197,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapExecutorTo(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -165,6 +216,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "groupBy(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -180,6 +236,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "src=" + srcToString(src) +
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -194,6 +255,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "ascending=" + ascending +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -209,6 +275,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -224,6 +295,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", ascending=" + ascending +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -245,6 +321,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", preserveOrder=" + preserveOrder +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -267,6 +348,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -287,6 +373,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "other=" + otherName +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -308,6 +399,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -329,6 +425,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -351,6 +452,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -365,6 +471,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "distinct(" +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -380,6 +491,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -395,6 +511,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -411,6 +532,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName()
         );
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -428,7 +554,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame flatMapValues(ISource src) throws IgnisException {
@@ -441,7 +571,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "flatMapValues(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame mapValues(ISource src) throws IgnisException {
@@ -454,7 +588,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "mapValues(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame repartition(long numPartitions, boolean preserveOrdering, boolean global) throws IgnisException {
@@ -469,7 +607,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", preserveOrdering=" + preserveOrdering +
                 ", global=" + global +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame partitionByRandom(long numPartitions, int seed) throws IgnisException {
@@ -483,7 +625,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "numPartitions=" + numPartitions +
                 "seed=" + seed +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame partitionByHash(long numPartitions) throws IgnisException {
@@ -496,7 +642,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "partitionByHash(" +
                 "numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame partitionBy(ISource src, long numPartitions) throws IgnisException {
@@ -510,7 +660,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "src=" + srcToString(src) +
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame groupByKey() throws IgnisException {
@@ -523,7 +677,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         IDataFrame target = data.createDataFrame(builder.build());
         LOGGER.info(log() + "groupByKey(" +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame groupByKey(long numPartitions) throws IgnisException {
@@ -537,7 +695,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "groupByKey(" +
                 "numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame groupByKey(ISource src) throws IgnisException {
@@ -551,7 +713,11 @@ public final class IDataGeneralHelper extends IDataHelper {
         LOGGER.info(log() + "groupByKey(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame groupByKey(long numPartitions, ISource src) throws IgnisException {
@@ -566,7 +732,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "numPartitions=" + numPartitions +
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame reduceByKey(ISource src, boolean localReduce) throws IgnisException {
@@ -581,7 +751,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "src=" + srcToString(src) +
                 ", localReduce=" + localReduce +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame reduceByKey(ISource src, long numPartitions, boolean localReduce) throws IgnisException {
@@ -597,7 +771,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ", localReduce=" + localReduce +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame aggregateByKey(ISource zero, ISource seqOp) throws IgnisException {
@@ -612,7 +790,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "zero=" + srcToString(zero) +
                 ", seqOp=" + srcToString(seqOp) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame aggregateByKey(ISource zero, ISource seqOp, long numPartitions) throws IgnisException {
@@ -628,7 +810,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", seqOp=" + srcToString(seqOp) +
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame aggregateByKey(ISource zero, ISource seqOp, ISource combOp) throws IgnisException {
@@ -644,7 +830,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", seqOp=" + srcToString(seqOp) +
                 ", combOp=" + srcToString(combOp) +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame aggregateByKey(ISource zero, ISource seqOp, ISource combOp, long numPartitions) throws IgnisException {
@@ -661,7 +851,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", combOp=" + srcToString(combOp) +
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame foldByKey(ISource zero, ISource src, boolean localFold) throws IgnisException {
@@ -677,7 +871,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", src=" + srcToString(src) +
                 ", localFold=" + localFold +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame foldByKey(ISource zero, ISource src, long numPartitions, boolean localFold) throws IgnisException {
@@ -694,7 +892,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ", localFold=" + localFold +
                 ") registered -> " + target.getName());
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame sortByKey(boolean ascending) throws IgnisException {
@@ -708,7 +910,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 "ascending=" + ascending +
                 ") registered -> " + target.getName()
         );
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame sortByKey(boolean ascending, long numPartitions) throws IgnisException {
@@ -723,7 +929,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame sortByKey(ISource src, boolean ascending) throws IgnisException {
@@ -738,7 +948,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", ascending=" + ascending +
                 ") registered -> " + target.getName()
         );
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
     public IDataFrame sortByKey(ISource src, boolean ascending, long numPartitions) throws IgnisException {
@@ -754,7 +968,11 @@ public final class IDataGeneralHelper extends IDataHelper {
                 ", numPartitions=" + numPartitions +
                 ") registered -> " + target.getName()
         );
-        return target;
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        } return target;
     }
 
 

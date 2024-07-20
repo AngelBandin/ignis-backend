@@ -30,8 +30,12 @@ import org.ignis.scheduler.model.IContainerInfo;
 import org.ignis.scheduler.model.IPort;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.ignis.backend.ui.DBUpdateService.insertJob;
+import static org.ignis.backend.ui.DBUpdateService.upsertCluster;
 
 /**
  * @author César Pomar
@@ -63,6 +67,12 @@ public final class IClusterCreateHelper extends IClusterHelper {
             builder.newTask(new IContainerCreateTask(getName(), cluster.getContainers().get(i), scheduler, containerRequest, shared));
         }
 
+        try {
+            insertJob(cluster.getProperties());
+            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+        }
         return builder.build();
     }
 

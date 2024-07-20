@@ -27,10 +27,13 @@ import org.ignis.scheduler.model.IContainerInfo;
 import org.ignis.scheduler.model.IContainerStatus;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertManyContainers;
 
 /**
  * @author César Pomar
@@ -168,6 +171,11 @@ public final class IContainerCreateTask extends IContainerTask {
                         + '}');
             }
             LOGGER.info(log() + "Containers ready");
+            try {
+                upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), shared.containers);
+            } catch (IOException e) {
+                throw new IgnisException("Error while updating container: "+container.getId());
+            }
         } catch (IgnisException ex) {
             shared.barrier.fails();
             throw ex;

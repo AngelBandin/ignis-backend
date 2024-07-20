@@ -24,9 +24,14 @@ import org.ignis.backend.cluster.tasks.ILazy;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.*;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.rpc.ISource;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -52,6 +57,11 @@ public final class IDataMathHelper extends IDataHelper {
                 ", fraction=" + fraction +
                 ", seed=" + seed +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return target;
     }
 
@@ -71,6 +81,7 @@ public final class IDataMathHelper extends IDataHelper {
                 ", num=" + num +
                 ", seed=" + seed +
                 ") registered");
+
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -86,6 +97,11 @@ public final class IDataMathHelper extends IDataHelper {
         }
         LOGGER.info(log() + "count(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.<Long>get("result");
@@ -105,6 +121,11 @@ public final class IDataMathHelper extends IDataHelper {
         builder.newTask(new IMaxTask(driver.getName(), driver.getExecutor(), shared, true, tp));
         LOGGER.info(log() + "max(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -125,6 +146,11 @@ public final class IDataMathHelper extends IDataHelper {
         LOGGER.info(log() + "max(" +
                 "cmp=" + srcToString(cmp) +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -144,6 +170,11 @@ public final class IDataMathHelper extends IDataHelper {
         builder.newTask(new IMinTask(driver.getName(), driver.getExecutor(), shared, true, tp));
         LOGGER.info(log() + "min(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -164,6 +195,11 @@ public final class IDataMathHelper extends IDataHelper {
         LOGGER.info(log() + "min(" +
                 "cmp=" + srcToString(cmp) +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -187,6 +223,11 @@ public final class IDataMathHelper extends IDataHelper {
         builder.newTask(new ICountByKeyTask(driver.getName(), driver.getExecutor(), shared, true, tp));
         LOGGER.info(log() + "countByKey(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());
@@ -206,6 +247,11 @@ public final class IDataMathHelper extends IDataHelper {
         builder.newTask(new ICountByValueTask(driver.getName(), driver.getExecutor(), shared, true, tp));
         LOGGER.info(log() + "countByValue(" +
                 ") registered");
+        try {
+            upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
             return context.popContext(driver.getExecutor());

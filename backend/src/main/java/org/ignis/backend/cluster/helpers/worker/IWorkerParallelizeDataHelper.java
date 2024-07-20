@@ -50,6 +50,7 @@ public final class IWorkerParallelizeDataHelper extends IWorkerHelper {
         builder.newTask(new IParallelizeTask(driver.getName(), driver.getExecutor(), shared, true, partitions));
 
         IDataFrame target = worker.createDataFrame(worker.getExecutors(), builder.build());
+        //dataframe taskgroup o worker entro
         LOGGER.info(log() + "parallelize(" +
                 ") registered -> " + target.getName());
         return target;
@@ -65,7 +66,7 @@ public final class IWorkerParallelizeDataHelper extends IWorkerHelper {
         builder.newLock(driver.getLock());
         builder.newDependency(driver.driverContectionWithData(dataId));
         builder.newTask(new IParallelizeTask(driver.getName(), driver.getExecutor(), shared, true, partitions, src));
-
+        //dataframe o taskgroup o worker
         IDataFrame target = worker.createDataFrame(worker.getExecutors(), builder.build());
         LOGGER.info(log() + "parallelize(" +
                 "partitions=" + partitions +

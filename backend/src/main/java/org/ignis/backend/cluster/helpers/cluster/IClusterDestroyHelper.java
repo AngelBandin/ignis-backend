@@ -22,9 +22,14 @@ import org.ignis.backend.cluster.tasks.ILazy;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.container.IContainerDestroyTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.scheduler.IScheduler;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.*;
 
 /**
  * @author César Pomar
@@ -52,7 +57,11 @@ public final class IClusterDestroyHelper extends IClusterHelper {
         }
 
         ITaskGroup target = builder.build();
-
+        try {
+            destroyCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster.getId());
+        } catch (IOException e) {
+            LOGGER.info(log() +"Error while destroying cluster: "+cluster.getName());
+        }
         return () -> {
             LOGGER.info(log() + "Destroying cluster with " + cluster.getContainers().size() + " containers");
             target.start(cluster.getPool());

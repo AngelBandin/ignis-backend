@@ -20,8 +20,14 @@ import org.ignis.backend.cluster.IExecutor;
 import org.ignis.backend.cluster.IWorker;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.IExecutorDestroyTask;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.destroyCluster;
+import static org.ignis.backend.ui.DBUpdateService.destroyWorker;
 
 /**
  * @author César Pomar
@@ -39,6 +45,11 @@ public final class IWorkerDestroyHelper extends IWorkerHelper {
         ITaskGroup.Builder builder = new ITaskGroup.Builder(worker.getLock());
         for (IExecutor executor : worker.getExecutors()) {
             builder.newTask(new IExecutorDestroyTask(getName(), executor));
+        }
+        try {
+            destroyWorker(worker.getCluster().getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(), worker.getId());
+        } catch (IOException e) {
+            LOGGER.info(log() + "Error while destroying worker: "+worker.getName());
         }
         return builder.build();
     }
