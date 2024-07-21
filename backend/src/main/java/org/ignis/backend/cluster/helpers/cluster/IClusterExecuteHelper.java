@@ -24,10 +24,15 @@ import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.container.IExecuteCmdTask;
 import org.ignis.backend.cluster.tasks.container.IExecuteScriptTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
+
+import static org.ignis.backend.ui.DBUpdateService.insertJob;
+import static org.ignis.backend.ui.DBUpdateService.upsertCluster;
 
 /**
  * @author César Pomar
@@ -48,10 +53,11 @@ public final class IClusterExecuteHelper extends IClusterHelper {
         }
         ITaskGroup group = builder.build();
         cluster.getTasks().getSubTasksGroup().add(group);
-        //update containers and workers with containers
-        //update subtaskgroup of taskgroup
-        //or
-        //update whole cluster
+        try {
+            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+        }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();
             dummy.getSubTasksGroup().add(group);
@@ -68,10 +74,11 @@ public final class IClusterExecuteHelper extends IClusterHelper {
         }
         ITaskGroup group = builder.build();
         cluster.getTasks().getSubTasksGroup().add(group);
-        //update containers and workers with containers
-        //update subtaskgroup of taskgroup
-        //or
-        //update whole cluster
+        try {
+            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+        }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();
             dummy.getSubTasksGroup().add(group);

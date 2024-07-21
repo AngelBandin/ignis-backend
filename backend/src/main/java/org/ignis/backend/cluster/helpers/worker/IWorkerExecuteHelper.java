@@ -25,9 +25,14 @@ import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.IExecuteTask;
 import org.ignis.backend.cluster.tasks.executor.IExecuteToTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.rpc.ISource;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 public class IWorkerExecuteHelper extends IWorkerHelper {
 
@@ -46,9 +51,11 @@ public class IWorkerExecuteHelper extends IWorkerHelper {
         LOGGER.info(log() + "execute(" +
                 "src=" + srcToString(src) +
                 ") registered");
-        //actualizar taskgroup de worker aunque no se si de cluster.
-        //o
-        //actualizar worker
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
             return null;
@@ -65,6 +72,11 @@ public class IWorkerExecuteHelper extends IWorkerHelper {
         LOGGER.info(log() + "executeTo(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return target;
     }
 }

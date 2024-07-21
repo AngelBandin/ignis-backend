@@ -176,8 +176,11 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
                 "path=" + path +
                 ", src=" + srcToString(src) +
                 ") registered -> " + target.getName());
-        //añadir dependency a taskgroup dataframe o worker entero
-
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         try {
             upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
         } catch (IOException e) {

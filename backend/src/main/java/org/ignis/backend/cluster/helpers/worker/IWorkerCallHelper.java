@@ -25,9 +25,14 @@ import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.ICallTask;
 import org.ignis.backend.cluster.tasks.executor.IVoidCallTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.ignis.rpc.ISource;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 public class IWorkerCallHelper extends IWorkerHelper {
 
@@ -61,7 +66,11 @@ public class IWorkerCallHelper extends IWorkerHelper {
                 "src=" + srcToString(src) +
                 ") registered");
 
-        //update worker give dependency
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
 
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
@@ -83,7 +92,11 @@ public class IWorkerCallHelper extends IWorkerHelper {
                 "src=" + srcToString(src) +
                 ") registered");
 
-        //no en prinicipio
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return () -> {
             ITaskContext context = builder.build().start(worker.getPool());
             return null;
@@ -99,9 +112,11 @@ public class IWorkerCallHelper extends IWorkerHelper {
         IDataFrame target = worker.createDataFrame(worker.getExecutors(), builder.build());
         setName(true, src, false);
 
-        //añadir Dataframe a worker
-        //o
-        //update de worker
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         LOGGER.info(log() + "call(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());
@@ -120,7 +135,11 @@ public class IWorkerCallHelper extends IWorkerHelper {
         IDataFrame target = source.createDataFrame(builder.build());
         setName(true, src, true);
 
-        //creo que lo mismo. que arriba o no
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         LOGGER.info(log() + "map(" +
                 "src=" + srcToString(src) +
                 ") registered -> " + target.getName());

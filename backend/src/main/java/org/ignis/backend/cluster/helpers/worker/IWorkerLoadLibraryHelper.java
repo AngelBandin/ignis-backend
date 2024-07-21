@@ -23,8 +23,13 @@ import org.ignis.backend.cluster.tasks.ILazy;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.executor.ILoadLibraryTask;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 public class IWorkerLoadLibraryHelper extends IWorkerHelper {
 
@@ -42,7 +47,11 @@ public class IWorkerLoadLibraryHelper extends IWorkerHelper {
         }
         ITaskGroup group = builder.build();
         worker.getTasks().getSubTasksGroup().add(group);
-        //worker taskgroup
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            throw new IgnisException("Error while updating worker: "+worker.getName());
+        }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(worker.getLock()).build();
             dummy.getSubTasksGroup().add(group);
