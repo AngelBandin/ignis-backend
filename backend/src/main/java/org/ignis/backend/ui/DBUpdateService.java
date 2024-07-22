@@ -21,7 +21,7 @@ import static org.ignis.backend.ui.ComplexJsonMapper.*;
 
 public class DBUpdateService{
 
-    private static String  BASE_URL = "http://172.17.0.1:5038/api/IClusterPrueba/";
+    private static String  BASE_URL = "http://172.17.0.1:5038";
 
     public DBUpdateService(String baseUrl) {
         BASE_URL = baseUrl + "/api/IClusterPrueba/";

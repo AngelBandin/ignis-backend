@@ -44,6 +44,7 @@ public final class Main {
      */
     public static void main(String[] args) {
         LOGGER.info("Backend started");
+        LOGGER.info("Backend propio");
         IProperties props = new IProperties();
 
         LOGGER.info("Loading environment variables");
