@@ -5,6 +5,7 @@ import org.ignis.backend.cluster.tasks.ITask;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
+import org.ignis.properties.IPropertyException;
 import org.ignis.scheduler.model.IBind;
 import org.ignis.scheduler.model.IContainerInfo;
 import org.ignis.scheduler.model.IPort;
@@ -26,11 +27,26 @@ public class ComplexJsonMapper {
 
     static String jobPostBuilder(IProperties properties){
         StringBuilder aux;
-        aux = new StringBuilder("{\"name\": \"").append(properties.getString(IKeys.JOB_NAME))
-                .append("\", \"id\": \"").append(properties.getString(IKeys.JOB_ID))
-                .append("\", \"directory\": \"").append(properties.getString(IKeys.JOB_DIRECTORY))
-                .append("\", \"directory\": \"").append(properties.getString(IKeys.JOB_WORKER))
-                .append("\", \"clusters\": []}");
+
+
+        //hacer un for sobre las properties
+        aux = new StringBuilder("{\"name\": \"").append(properties.getString(IKeys.JOB_NAME));
+
+        boolean first = true;
+
+        aux.append("\", \"id\": \"").append(properties.getString(IKeys.JOB_ID)).append("\"");
+        try{
+            aux.append(", \"directory\": \"").append(properties.getString(IKeys.JOB_DIRECTORY)).append("\"");
+        }
+        catch (IPropertyException e){
+            //do nothing
+        }
+        try {
+            aux.append(", \"worker\": \"").append(properties.getString(IKeys.JOB_WORKER)).append("\"");
+        }catch (IPropertyException e){
+            //do nothing
+        }
+        aux.append(", \"clusters\": []}");
         return aux.toString();
     }
 
@@ -83,33 +99,39 @@ public class ComplexJsonMapper {
     }
 
 
-    private static String ClusterMapper(ICluster cluster){
+    private static String ClusterMapper(ICluster cluster) {
         StringBuilder aux;
         boolean first = true;
         aux = new StringBuilder("{\"name\": \"");
         aux.append(cluster.getName()).append("\", \"id\": ")
-                .append(cluster.getId()).append(", \"taskgroup\": ")
-                .append(TaskgroupMapper(cluster.getTasks()))
-                .append(", \"workers\": [");
-        for (IWorker worker : cluster.getWorkers()){
-            if (!first) {
-                aux.append(",");
+                .append(cluster.getId()).append(", \"taskgroup\": ");
+        if (cluster.getTasks() != null) aux.append(TaskgroupMapper(cluster.getTasks()));
+        else aux.append("{}");
+        aux.append(", \"workers\": [");
+        if (cluster.getWorkers() != null) {
+            for (IWorker worker : cluster.getWorkers()) {
+                if (!first) {
+                    aux.append(",");
+                }
+                aux.append(WorkerMapper(worker));
+                first = false;
             }
-            aux.append(WorkerMapper(worker));
-            first = false;
+            first = true;
         }
-        first = true;
         aux.append("], \"containers\": [");
-        for (IContainer container : cluster.getContainers()){
-            if (!first) {
-                aux.append(",");
+        if(cluster.getContainers() != null){
+            for (IContainer container : cluster.getContainers()) {
+                if (!first) {
+                    aux.append(",");
+                }
+                aux.append(ContainerMapper(container));
+                first = false;
             }
-            aux.append(ContainerMapper(container));
-            first = false;
         }
-        aux.append("], \"properties\": ")
-                .append(PropertiesMapper(cluster.getProperties()))
-                .append("}");
+        aux.append("], \"properties\": ");
+        if(cluster.getProperties() != null)aux.append(PropertiesMapper(cluster.getProperties()));
+        else aux.append("{}");
+        aux.append("}");
         return aux.toString();
     }
 
