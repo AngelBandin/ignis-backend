@@ -21,7 +21,7 @@ import static org.ignis.backend.ui.ComplexJsonMapper.*;
 
 public class DBUpdateService{
 
-    private static String  BASE_URL = "http://172.17.0.1:5038";
+    private static String  BASE_URL = "http://172.17.0.1:5038/api/IClusterPrueba/";
 
     public DBUpdateService(String baseUrl) {
         BASE_URL = baseUrl + "/api/IClusterPrueba/";
@@ -112,7 +112,8 @@ public class DBUpdateService{
             httpDelete.setHeader("Content-Type", "application/json");
             httpDelete.setEntity(new StringEntity(jsonPayload));
             try (CloseableHttpResponse response = client.execute(httpDelete)) {
-                return EntityUtils.toString(response.getEntity());
+                return jsonPayload;
+                //return EntityUtils.toString(response.getEntity());
             }
         }
     }
@@ -121,9 +122,10 @@ public class DBUpdateService{
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setEntity(new StringEntity(jsonPayload));
-
             try (CloseableHttpResponse response = client.execute(httpPost)) {
-                return EntityUtils.toString(response.getEntity());
+                //return EntityUtils.toString(response.getEntity());
+                //return jsonPayload;
+                return "\nResponse:"+EntityUtils.toString(response.getEntity()) + "\nJsonPayload"+ jsonPayload;
             }
         }
     }

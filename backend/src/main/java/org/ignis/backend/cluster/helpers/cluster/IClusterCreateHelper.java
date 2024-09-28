@@ -68,8 +68,11 @@ public final class IClusterCreateHelper extends IClusterHelper {
         }
 
         try {
-            insertJob(cluster.getProperties());
-            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+            String aux;
+            aux = insertJob(cluster.getProperties());
+            LOGGER.info(log() + "insertado job:\n" + aux);
+            aux =upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+            LOGGER.info(log() + "insertado cluster:\n" + aux);
         } catch (IOException e) {
             throw new IgnisException("Error while updating cluster: "+cluster.getName());
         }

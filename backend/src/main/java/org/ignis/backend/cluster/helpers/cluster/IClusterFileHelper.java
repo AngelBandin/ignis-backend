@@ -52,7 +52,9 @@ public final class IClusterFileHelper extends IClusterHelper {
         ITaskGroup group = builder.build();
         cluster.getTasks().getSubTasksGroup().add(group);
         try {
-            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+            String aux;
+            aux = upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+            LOGGER.info(log() + "insertado cluster:\n" + aux);
         } catch (IOException e) {
             throw new IgnisException("Error while updating cluster: "+cluster.getName());
         }

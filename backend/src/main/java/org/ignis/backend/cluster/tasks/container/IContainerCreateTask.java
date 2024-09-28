@@ -172,7 +172,9 @@ public final class IContainerCreateTask extends IContainerTask {
             }
             LOGGER.info(log() + "Containers ready");
             try {
-                upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), shared.containers);
+                String aux;
+                aux = upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), shared.containers);
+                LOGGER.info(log() + "insertado containers:\n" + aux);
             } catch (IOException e) {
                 throw new IgnisException("Error while updating container: "+container.getId());
             }
