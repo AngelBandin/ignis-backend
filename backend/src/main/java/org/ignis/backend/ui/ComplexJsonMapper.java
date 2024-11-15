@@ -1,7 +1,7 @@
 package org.ignis.backend.ui;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.SerializationFeature;
 import org.ignis.backend.cluster.*;
 import org.ignis.backend.cluster.tasks.ITask;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class ComplexJsonMapper {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+    //private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     /*public static String cleanAndFormatJson(String jsonPayload) {
         try {
@@ -92,7 +92,28 @@ public class ComplexJsonMapper {
         return result;
     }
 
-    static String jobPostBuilder(IProperties properties) {
+    static String jobPostBuilder(IProperties properties, IContainer driver) {
+        StringBuilder sb = new StringBuilder("{");
+        safeAppendString(sb, "id", properties.getString(IKeys.JOB_ID));
+        safeAppendString(sb, "name", properties.getString(IKeys.JOB_NAME));
+
+        try {
+            safeAppendString(sb, "directory", properties.getString(IKeys.JOB_DIRECTORY));
+        } catch (IPropertyException e) {
+            // Do nothing
+        }
+
+        try {
+            safeAppendString(sb, "worker", properties.getString(IKeys.JOB_WORKER));
+        } catch (IPropertyException e) {
+            // Do nothing
+        }
+        safeAppend(sb, "driver", driver, ComplexJsonMapper::ContainerMapper);
+        safeAppendString(sb, "status","Running");
+        sb.append(", \"clusters\": []}");
+        return sb.toString().replaceFirst("^\\{, ", "{");
+    }
+    static String jobFinishBuilder(IProperties properties) {
         StringBuilder sb = new StringBuilder("{");
         safeAppendString(sb, "name", properties.getString(IKeys.JOB_NAME));
         safeAppendString(sb, "id", properties.getString(IKeys.JOB_ID));
@@ -108,10 +129,12 @@ public class ComplexJsonMapper {
         } catch (IPropertyException e) {
             // Do nothing
         }
-
-        sb.append(", \"clusters\": []}");
+        safeAppendString(sb, "status","Finished");
+        sb.append("}");
         return sb.toString().replaceFirst("^\\{, ", "{");
+
     }
+
 
     static String workerPostBuilder(String jobId, long clusterId, IWorker worker) {
         StringBuilder sb = new StringBuilder("{");
@@ -201,10 +224,10 @@ public class ComplexJsonMapper {
         if (container == null) return "{}";
 
         StringBuilder sb = new StringBuilder("{");
+        safeAppendNumber(sb, "id", container.getId());
+        safeAppendNumber(sb, "cluster", container.getCluster());
         IContainerInfo info = container.getInfo();
         if (info != null) {
-            safeAppendNumber(sb, "id", container.getId());
-            safeAppendNumber(sb, "cluster", container.getCluster());
             safeAppendString(sb, "infoid", info.getId());
             safeAppendString(sb, "host", info.getHost());
             safeAppendString(sb, "image", info.getImage());
@@ -261,15 +284,14 @@ public class ComplexJsonMapper {
     }
 
     private static String PropertiesMapper(IProperties properties) {
-        return properties != null ? mapToJsonString(properties.toMap(false)) : "{}";
+        return properties != null ? mapToJsonString(properties.toMap(true)) : "{}";
     }
 
     private static String TaskgroupMapper(ITaskGroup taskgroup) {
         if (taskgroup == null) return "{}";
-
         StringBuilder sb = new StringBuilder("{");
         safeAppendCollection(sb, "tasks", taskgroup.getTasks(),
-                task -> "{\"name\": \"" + ((ITask)task).getName() + "\"}");
+                task -> "{\"name\": \"" +((ITask)task).getClass().getName().replaceAll("^.*\\.", "")+" <-- "+((ITask)task).getName() + "\"}");
         safeAppendCollection(sb, "dependencies", taskgroup.getDepencencies(), ComplexJsonMapper::TaskgroupMapper);
         safeAppendCollection(sb, "subTasksGroup", taskgroup.getSubTasksGroup(), ComplexJsonMapper::TaskgroupMapper);
         sb.append("}");
@@ -287,7 +309,9 @@ public class ComplexJsonMapper {
             if (!first) {
                 sb.append(", ");
             }
-            sb.append("\"").append(entry.getKey()).append("\": \"").append(entry.getValue()).append("\"");
+            String value = entry.getValue().replace("\n", "").replace("\r", "");
+            sb.append("\"").append(entry.getKey()).append("\": \"")
+                    .append(value.replace("\"", "\\\"")).append("\"");
             first = false;
         }
         sb.append("}");

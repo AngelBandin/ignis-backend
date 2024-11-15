@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static org.ignis.backend.ui.DBUpdateService.insertJob;
 import static org.ignis.backend.ui.DBUpdateService.upsertCluster;
 
 /**
@@ -58,7 +57,7 @@ public final class IClusterExecuteHelper extends IClusterHelper {
             aux =upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
             LOGGER.info(log() + "insertado cluster:\n" + aux);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+            LOGGER.info(log() +"Error while updating cluster: "+cluster.getName());
         }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();
@@ -81,7 +80,7 @@ public final class IClusterExecuteHelper extends IClusterHelper {
             aux =upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
             LOGGER.info(log() + "insertado cluster:\n" + aux);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+            LOGGER.info(log() +"Error while updating cluster: "+cluster.getName());
         }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();

@@ -2606,7 +2606,6 @@ public class SingularityClientExt {
      * Check if the current client's user is authorized for the specified scope on the specified request
      *
      * @param requestId The request to check authorization on
-     * @param userId    The user whose authorization will be checked
      * @param scope     The scope to check that `user` has
      * @return true if the user is authorized for scope, false otherwise
      */

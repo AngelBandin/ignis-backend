@@ -62,6 +62,10 @@ public final class IKeys {
     public static final String DRIVER_HEALTHCHECK_INTERVAL = "ignis.driver.healthcheck.interval";
     public static final String DRIVER_HEALTHCHECK_TIMEOUT = "ignis.driver.healthcheck.timeout";
     public static final String DRIVER_HEALTHCHECK_RETRIES = "ignis.driver.healthcheck.retries";
+    /*UI*/
+    public static final String DRIVER_UI_UP = "ignis.driver.ui";
+    public static final String DRIVER_UI_URL = "ignis.driver.uiurl";
+    public static final String DRIVER_UI_PORT = "ignis.driver.uiport";
     /*EXECUTOR*/
     public static final String EXECUTOR_INSTANCES = "ignis.executor.instances";
     public static final String EXECUTOR_ATTEMPTS = "ignis.executor.attempts";

@@ -25,6 +25,10 @@ import org.ignis.properties.IProperties;
 import org.ignis.scheduler.ISchedulerParser;
 import org.ignis.scheduler.model.IContainerInfo;
 
+import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.*;
+
 /**
  * @author César Pomar
  */
@@ -45,9 +49,10 @@ public final class IDriver {
                 build();
     }
 
-    public void initInfo(IContainerInfo info) {
+    public String initInfo(IContainerInfo info) throws IOException {
         dummy.setInfo(info);
         dummy.getProperties().fromMap(executor.getUserProperties());
+        return insertJob(dummy.getProperties(), this.dummy);
     }
 
     private IContainerInfo driverRequest(IProperties properties) {

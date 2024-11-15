@@ -110,7 +110,7 @@ public final class IContainerDestroyTask extends IContainerTask {
             //upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containers);
             destroyManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containerids);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating container: "+container.getId());
+            LOGGER.info(log() +"Error while updating container: "+container.getId());
         }
 
     }

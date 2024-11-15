@@ -56,7 +56,7 @@ public final class IClusterFileHelper extends IClusterHelper {
             aux = upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
             LOGGER.info(log() + "insertado cluster:\n" + aux);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+            LOGGER.info(log() +"Error while updating cluster: "+cluster.getName());
         }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(cluster.getLock()).build();

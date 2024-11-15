@@ -61,7 +61,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -85,7 +85,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -108,7 +108,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -134,7 +134,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -160,7 +160,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -185,7 +185,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -210,7 +210,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -234,7 +234,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -254,7 +254,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -274,7 +274,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -294,7 +294,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -318,7 +318,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -343,7 +343,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -367,7 +367,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -392,7 +392,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -415,7 +415,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());
@@ -438,7 +438,7 @@ public final class IDataGeneralActionHelper extends IDataHelper {
         try {
             upsertWorker(data.getWorker().getProperties().getProperty(IKeys.JOB_ID),data.getWorker().getCluster().getId(),data.getWorker());
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+data.getWorker().getName());
+            LOGGER.info(log() +"Error while updating worker: "+data.getWorker().getName());
         }
         return () -> {
             ITaskContext context = builder.build().start(data.getPool());

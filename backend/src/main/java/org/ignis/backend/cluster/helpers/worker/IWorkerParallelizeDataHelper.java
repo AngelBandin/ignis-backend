@@ -58,7 +58,7 @@ public final class IWorkerParallelizeDataHelper extends IWorkerHelper {
         try {
             upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+worker.getName());
+            LOGGER.info(log() +"Error while updating worker: "+worker.getName());
         }
         LOGGER.info(log() + "parallelize(" +
                 ") registered -> " + target.getName());
@@ -78,7 +78,7 @@ public final class IWorkerParallelizeDataHelper extends IWorkerHelper {
         try {
             upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+worker.getName());
+            LOGGER.info(log() +"Error while updating worker: "+worker.getName());
         }
         IDataFrame target = worker.createDataFrame(worker.getExecutors(), builder.build());
         LOGGER.info(log() + "parallelize(" +

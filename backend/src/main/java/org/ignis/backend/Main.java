@@ -17,6 +17,7 @@
 package org.ignis.backend;
 
 import org.apache.thrift.TMultiplexedProcessor;
+import org.ignis.backend.ui.DBUpdateService;
 import org.ignis.properties.IPropertyException;
 import org.ignis.scheduler.ISchedulerException;
 import org.ignis.properties.IKeys;
@@ -31,6 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.ignis.backend.ui.DBUpdateService.*;
 
 /**
  * @author César Pomar
@@ -67,6 +70,7 @@ public final class Main {
         try {
             String conf = new File(props.getString(IKeys.HOME), "etc/ignis.conf").getPath();
             props.load(conf, false);//only load not set properties
+            LOGGER.info("ignis conf:"+conf);
         } catch (IPropertyException | IOException ex) {
             LOGGER.error("Error loading ignis.conf, aborting", ex);
             System.exit(-1);
@@ -78,7 +82,9 @@ public final class Main {
         } else {
             System.setProperty(IKeys.DEBUG, "false");
         }
-
+        //setting ui url for clas DBUpdateService
+        //String dbServiceBaseUrl = props.getString(IKeys.DRIVER_UI_URL) + ":" + props.getString(IKeys.DRIVER_UI_PORT);
+        //DBUpdateService.setBaseUrl(dbServiceBaseUrl);
         LOGGER.info("Loading scheduler");
         IScheduler scheduler = null;
         String schedulerType = null;
@@ -121,7 +127,19 @@ public final class Main {
         }
 
         IAttributes attributes = new IAttributes(props);
-        attributes.driver.initInfo(driverInfo);
+        boolean ui_up = props.getBoolean(IKeys.DRIVER_UI_UP);
+        String url = props.getString(IKeys.DRIVER_UI_URL);
+        int port = props.getInteger(IKeys.DRIVER_UI_PORT);
+        LOGGER.info(url +":"+port+ "/api/v1/");
+        LOGGER.info("Asigned ="+ui_up + url + port);
+        LOGGER.info("Keys:"+IKeys.DRIVER_UI_UP + IKeys.DRIVER_UI_URL + IKeys.DRIVER_UI_PORT);
+        setupDBUpdateService(ui_up, url, port);
+        try {
+            String aux = attributes.driver.initInfo(driverInfo);
+            LOGGER.info("Inserting job:\n" + aux);
+        } catch (IOException e) {
+            LOGGER.info("Error while inserting job: "+props.getProperty(IKeys.JOB_ID));
+        }
         attributes.ssh.setPortForwarding(driverInfo.getNetworkMode() != INetworkMode.HOST);
 
         LOGGER.info("Setting dynamic properties");
@@ -176,6 +194,12 @@ public final class Main {
             }
 
             LOGGER.info("Backend stopped");
+            try {
+                String aux = finishJob(props);
+                LOGGER.info("Inserting job:\n" + aux);
+            } catch (IOException e) {
+                LOGGER.info("Error while updating job: "+props.getProperty(IKeys.JOB_ID));
+            }
             System.exit(0);
         } catch (Exception ex) {
             LOGGER.error("Server error, aborting", ex);

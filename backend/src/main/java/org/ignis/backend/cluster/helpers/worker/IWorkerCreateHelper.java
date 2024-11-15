@@ -81,7 +81,7 @@ public final class IWorkerCreateHelper extends IWorkerHelper {
             aux =upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
             LOGGER.info(log() + "insertado worker:\n" + aux);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+worker.getName());
+            LOGGER.info(log() +"Error while updating worker: "+worker.getName());
         }
         return taskGroup;
     }

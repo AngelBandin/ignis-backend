@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static org.ignis.backend.ui.DBUpdateService.insertJob;
 import static org.ignis.backend.ui.DBUpdateService.upsertCluster;
 
 /**
@@ -69,12 +68,10 @@ public final class IClusterCreateHelper extends IClusterHelper {
 
         try {
             String aux;
-            aux = insertJob(cluster.getProperties());
-            LOGGER.info(log() + "insertado job:\n" + aux);
             aux =upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
-            LOGGER.info(log() + "insertado cluster:\n" + aux);
+            LOGGER.info(log() + "insertado cluster: container: "+cluster.getContainers().get(0).getId()+"\n" + aux);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating cluster: "+cluster.getName());
+            LOGGER.info(log() +"Error while updating cluster: "+cluster.getName());
         }
         return builder.build();
     }

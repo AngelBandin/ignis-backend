@@ -50,7 +50,7 @@ public class IWorkerLoadLibraryHelper extends IWorkerHelper {
         try {
             upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
         } catch (IOException e) {
-            throw new IgnisException("Error while updating worker: "+worker.getName());
+            LOGGER.info(log() +"Error while updating worker: "+worker.getName());
         }
         return () -> {
             ITaskGroup dummy = new ITaskGroup.Builder(worker.getLock()).build();
