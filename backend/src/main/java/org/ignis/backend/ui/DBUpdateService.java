@@ -2,6 +2,7 @@ package org.ignis.backend.ui;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -112,7 +113,7 @@ public class DBUpdateService{
         //String jsonPayload = objectMapper.writeValueAsString(payload);
         //custom objectMapper
         String jsonPayload = jobFinishBuilder(properties);
-        return sendPostRequest(url, jsonPayload);
+        return sendPutRequest(url, jsonPayload);
     }
     public static String destroyCluster(String jobId, long clusterId)throws IOException{
         if(!active) {
@@ -149,7 +150,7 @@ public class DBUpdateService{
             httpDelete.setHeader("Content-Type", "application/json");
             httpDelete.setEntity(new StringEntity(jsonPayload));
             try (CloseableHttpResponse response = client.execute(httpDelete)) {
-                return "\nResponse:"+EntityUtils.toString(response.getEntity()) + "\nJsonPayload"+ jsonPayload;
+                return "\nResponse:"+EntityUtils.toString(response.getEntity());
                 //return EntityUtils.toString(response.getEntity());
             }
         }
@@ -164,7 +165,19 @@ public class DBUpdateService{
             try (CloseableHttpResponse response = client.execute(httpPost)) {
                 //return EntityUtils.toString(response.getEntity());
                 //return jsonPayload;
-                return "\nResponse:"+EntityUtils.toString(response.getEntity()) + "\nJsonPayload"+ jsonPayload;
+                return "\nResponse:"+EntityUtils.toString(response.getEntity());
+            }
+        }
+    }
+    private static String sendPutRequest(String url, String jsonPayload) throws IOException {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            HttpPut httpPut = new HttpPut(url);
+            httpPut.setHeader("Content-Type", "application/json");
+            httpPut.setEntity(new StringEntity(jsonPayload));
+            try (CloseableHttpResponse response = client.execute(httpPut)) {
+                //return EntityUtils.toString(response.getEntity());
+                //return jsonPayload;
+                return "\nResponse:"+EntityUtils.toString(response.getEntity());
             }
         }
     }

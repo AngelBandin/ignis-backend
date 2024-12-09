@@ -57,11 +57,11 @@ public final class IClusterDestroyHelper extends IClusterHelper {
         }
 
         ITaskGroup target = builder.build();
-        try {
-            destroyCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster.getId());
-        } catch (IOException e) {
-            LOGGER.info(log() +"Error while destroying cluster: "+cluster.getName());
-        }
+//        try {
+//            upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
+//        } catch (IOException e) {
+//            LOGGER.info(log() +"Error while destroying cluster: "+cluster.getName());
+//        }
         return () -> {
             LOGGER.info(log() + "Destroying cluster with " + cluster.getContainers().size() + " containers");
             target.start(cluster.getPool());

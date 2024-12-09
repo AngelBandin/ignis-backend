@@ -28,8 +28,11 @@ import org.ignis.properties.IProperties;
 import org.ignis.scheduler.IScheduler;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertCluster;
 
 /**
  * @author César Pomar
@@ -57,6 +60,13 @@ public final class ICluster {
         this.lock = new ILock(id);
         setName(name);
         this.tasks = new IClusterCreateHelper(this, properties).create(scheduler, ssh);//Must be the last
+        try {
+            String aux;
+            aux =upsertCluster(this.getProperties().getProperty(IKeys.JOB_ID),this);
+            LOGGER.info("Inserted cluster with containers: "+this.getContainers().get(0).getId()+"\n" + aux);
+        } catch (IOException e) {
+            LOGGER.info("Error while updating cluster: "+this.getName());
+        }
         if (Boolean.getBoolean(IKeys.DEBUG)) {
             LOGGER.info("Debug: " + getName() + " " + properties.toString());
         }

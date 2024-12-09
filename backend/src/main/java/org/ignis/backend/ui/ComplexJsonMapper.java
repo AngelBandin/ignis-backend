@@ -292,10 +292,30 @@ public class ComplexJsonMapper {
         StringBuilder sb = new StringBuilder("{");
         safeAppendCollection(sb, "tasks", taskgroup.getTasks(),
                 task -> "{\"name\": \"" +((ITask)task).getClass().getName().replaceAll("^.*\\.", "")+" <-- "+((ITask)task).getName() + "\"}");
-        safeAppendCollection(sb, "dependencies", taskgroup.getDepencencies(), ComplexJsonMapper::TaskgroupMapper);
+        safeAppendDependencies(sb, taskgroup.getDepencencies());
         safeAppendCollection(sb, "subTasksGroup", taskgroup.getSubTasksGroup(), ComplexJsonMapper::TaskgroupMapper);
         sb.append("}");
         return sb.toString().replaceFirst("^\\{, ", "{");
+    }
+
+    private static String safeAppendDependencies(StringBuilder sb, List<ITaskGroup> dependencies) {
+        return safeAppendCollection(sb, "dependencies", dependencies,
+                taskgroup -> {
+                    String taskclass = taskgroup.getTasks().get(0).getClass().getName().replaceAll("^.*\\.", "");
+                    String taskName = taskgroup.getTasks().get(0).getName();
+
+                    switch (taskclass) {
+                        case "IContainerCreateTask":
+                            return "{\"class\": \"Cluster\", \"parent\": \"" + taskName + "\"}";
+                        case "IExecutorCreateTask":
+                            return "{\"class\": \"Worker\", \"parent\": \"" + taskName + "\"}";
+                        case "ICacheTask":
+                            return "{\"class\": \"Dataframe\", \"parent\": \"" + taskName + "\"}";
+                        default:
+                            return TaskgroupMapper(taskgroup);
+                    }
+                }
+        );
     }
 
     private static String mapToJsonString(Map<String, String> map) {
@@ -317,5 +337,4 @@ public class ComplexJsonMapper {
         sb.append("}");
         return sb.toString();
     }
-
 }

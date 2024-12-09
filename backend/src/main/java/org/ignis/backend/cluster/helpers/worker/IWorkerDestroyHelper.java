@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static org.ignis.backend.ui.DBUpdateService.destroyCluster;
-import static org.ignis.backend.ui.DBUpdateService.destroyWorker;
+import static org.ignis.backend.ui.DBUpdateService.*;
 
 /**
  * @author César Pomar
@@ -46,11 +45,11 @@ public final class IWorkerDestroyHelper extends IWorkerHelper {
         for (IExecutor executor : worker.getExecutors()) {
             builder.newTask(new IExecutorDestroyTask(getName(), executor));
         }
-        try {
-            destroyWorker(worker.getCluster().getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(), worker.getId());
-        } catch (IOException e) {
-            LOGGER.info(log() + "Error while destroying worker: "+worker.getName());
-        }
+//        try {
+//            upsertWorker(worker.getCluster().getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(), worker);
+//        } catch (IOException e) {
+//            LOGGER.info(log() + "Error while destroying worker: "+worker.getName());
+//        }
         return builder.build();
     }
 

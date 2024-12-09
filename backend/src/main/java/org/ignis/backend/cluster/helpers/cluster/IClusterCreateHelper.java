@@ -65,14 +65,6 @@ public final class IClusterCreateHelper extends IClusterHelper {
         for (int i = 0; i < instances; i++) {
             builder.newTask(new IContainerCreateTask(getName(), cluster.getContainers().get(i), scheduler, containerRequest, shared));
         }
-
-        try {
-            String aux;
-            aux =upsertCluster(cluster.getProperties().getProperty(IKeys.JOB_ID),cluster);
-            LOGGER.info(log() + "insertado cluster: container: "+cluster.getContainers().get(0).getId()+"\n" + aux);
-        } catch (IOException e) {
-            LOGGER.info(log() +"Error while updating cluster: "+cluster.getName());
-        }
         return builder.build();
     }
 

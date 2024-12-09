@@ -22,9 +22,13 @@ import org.ignis.backend.cluster.tasks.ILock;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.backend.cluster.tasks.IThreadPool;
 import org.ignis.backend.exception.IgnisException;
+import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 
+import java.io.IOException;
 import java.util.List;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -45,6 +49,11 @@ public final class IDataFrame {
         this.cache = new ICache(id);
         setName(name);
         this.tasks = new IDataCacheHelper(this, worker.getProperties()).create(tasks, cache);
+        try {
+            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
+        } catch (IOException e) {
+            //do nothing
+        }
     }
 
     public List<IExecutor> getExecutors() {

@@ -26,8 +26,11 @@ import org.ignis.backend.exception.IgnisException;
 import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.ignis.backend.ui.DBUpdateService.upsertWorker;
 
 /**
  * @author César Pomar
@@ -58,6 +61,11 @@ public final class IWorker {
             this.lock = cluster.getLock();
         }
         this.tasks = new IWorkerCreateHelper(this, cluster.getProperties()).create(instances);//Must be the last
+        try {
+            upsertWorker(this.getProperties().getProperty(IKeys.JOB_ID),this.getCluster().getId(),this);
+        } catch (IOException e) {
+            //do nothing
+        }
     }
 
     public long getId() {

@@ -61,7 +61,6 @@ public final class Main {
                 LOGGER.warn("User options load error", ex);
             }
             props.rmProperty(IKeys.OPTIONS);
-
         }
         //Submitter home may be different so we ignore it.
         props.setProperty(IKeys.HOME, home);
@@ -70,7 +69,6 @@ public final class Main {
         try {
             String conf = new File(props.getString(IKeys.HOME), "etc/ignis.conf").getPath();
             props.load(conf, false);//only load not set properties
-            LOGGER.info("ignis conf:"+conf);
         } catch (IPropertyException | IOException ex) {
             LOGGER.error("Error loading ignis.conf, aborting", ex);
             System.exit(-1);
@@ -82,9 +80,6 @@ public final class Main {
         } else {
             System.setProperty(IKeys.DEBUG, "false");
         }
-        //setting ui url for clas DBUpdateService
-        //String dbServiceBaseUrl = props.getString(IKeys.DRIVER_UI_URL) + ":" + props.getString(IKeys.DRIVER_UI_PORT);
-        //DBUpdateService.setBaseUrl(dbServiceBaseUrl);
         LOGGER.info("Loading scheduler");
         IScheduler scheduler = null;
         String schedulerType = null;

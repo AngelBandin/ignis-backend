@@ -181,11 +181,6 @@ public final class IWorkerReadFileHelper extends IWorkerHelper {
         } catch (IOException e) {
             LOGGER.info(log() +"Error while updating worker: "+worker.getName());
         }
-        try {
-            upsertWorker(worker.getProperties().getProperty(IKeys.JOB_ID),worker.getCluster().getId(),worker);
-        } catch (IOException e) {
-            LOGGER.info(log() +"Error while updating worker: "+worker.getName());
-        }
         return target;
     }
 
