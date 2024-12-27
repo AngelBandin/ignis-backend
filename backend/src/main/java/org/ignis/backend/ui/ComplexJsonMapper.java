@@ -151,15 +151,6 @@ public class ComplexJsonMapper {
         sb.append("}");
         return sb.toString().replaceFirst("^\\{, ", "{");
     }
-    static String containerPostBuilder(String jobId, long clusterId, IContainer container) {
-        StringBuilder sb = new StringBuilder("{");
-        safeAppendString(sb, "jobId", jobId);
-        safeAppendNumber(sb, "clusterId", clusterId);
-        safeAppend(sb, "container", container, ComplexJsonMapper::ContainerMapper);
-        sb.append("}");
-        //return sb.toString().replaceFirst("^\\{, ", "{");
-        return sb.toString().replaceFirst("^\\{, ", "{");
-    }
     static String containersPostBuilder(String jobId, long clusterId, List<IContainer> containers) {
         StringBuilder sb = new StringBuilder("{");
         safeAppendString(sb, "jobId", jobId);
@@ -234,7 +225,7 @@ public class ComplexJsonMapper {
             safeAppendString(sb, "command", info.getCommand());
             safeAppendList(sb, "arguments", info.getArguments());
             safeAppendNumber(sb, "cpus", info.getCpus());
-            safeAppendString(sb, "memory", info.getMemory() + "m");
+            safeAppendNumber(sb, "memory", info.getMemory());
             safeAppendNumber(sb, "swappiness", info.getSwappiness());
             safeAppendCollection(sb, "ports", info.getPorts(), ComplexJsonMapper::PortMapper);
             safeAppendString(sb, "networkMode", info.getNetworkMode() != null ? info.getNetworkMode().toString() : null);

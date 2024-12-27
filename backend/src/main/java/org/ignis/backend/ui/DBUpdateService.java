@@ -70,16 +70,6 @@ public class DBUpdateService{
         return sendPostRequest(url, jsonPayload);
     }
 
-    public static String upsertContainer(String jobId, long clusterId, IContainer container) throws IOException {
-        if(!active) {
-            return "";
-        }
-        String endpoint = "UpsertContainer";
-        String url = BASE_URL + endpoint;
-
-        String jsonPayload = containerPostBuilder(jobId, clusterId, container);
-        return sendPostRequest(url, jsonPayload);
-    }
     public static String upsertManyContainers(String jobId, long clusterId, List<IContainer> containers) throws IOException {
         if(!active) {
             return "";
