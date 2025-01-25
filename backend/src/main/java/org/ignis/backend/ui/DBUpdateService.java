@@ -35,10 +35,6 @@ public class DBUpdateService{
         }
         String endpoint = "InsertJob";
         String url = BASE_URL + endpoint;
-
-        //ClusterPayload payload = new ClusterPayload(jobId, cluster);
-        //String jsonPayload = objectMapper.writeValueAsString(payload);
-        //custom objectMapper
         String jsonPayload = jobPostBuilder(properties,driver);
         return sendPostRequest(url, jsonPayload);
     }
@@ -49,10 +45,6 @@ public class DBUpdateService{
         }
         String endpoint = "UpsertCluster";
         String url = BASE_URL + endpoint;
-
-        //ClusterPayload payload = new ClusterPayload(jobId, cluster);
-        //String jsonPayload = objectMapper.writeValueAsString(payload);
-        //custom objectMapper
         String jsonPayload = clusterPostBuilder(jobId, cluster);
         return sendPostRequest(url, jsonPayload);
     }
@@ -64,8 +56,6 @@ public class DBUpdateService{
         String endpoint = "UpsertWorker";
         String url = BASE_URL + endpoint;
 
-        //WorkerPayload payload = new WorkerPayload(jobId, clusterId, worker);
-        //String jsonPayload = objectMapper.writeValueAsString(payload);
         String jsonPayload = workerPostBuilder(jobId, clusterId, worker);
         return sendPostRequest(url, jsonPayload);
     }
@@ -80,16 +70,6 @@ public class DBUpdateService{
         String jsonPayload = containersPostBuilder(jobId, clusterId, containers);
         return sendPostRequest(url, jsonPayload);
     }
-    public static String destroyManyContainers(String jobId, long clusterId, List<Long> containerids) throws IOException {
-        if(!active) {
-            return "";
-        }
-        String endpoint = "DeleteMultipleContainers";
-        String url = BASE_URL + endpoint;
-
-        String jsonPayload = containersDestroyBuilder(jobId, clusterId, containerids);
-        return sendDeleteRequest(url, jsonPayload);
-    }
 
     public static String finishJob(IProperties properties) throws IOException {
 
@@ -99,62 +79,17 @@ public class DBUpdateService{
         String endpoint = "UpdateJob";
         String url = BASE_URL + endpoint;
 
-        //ClusterPayload payload = new ClusterPayload(jobId, cluster);
-        //String jsonPayload = objectMapper.writeValueAsString(payload);
-        //custom objectMapper
+
         String jsonPayload = jobFinishBuilder(properties);
         return sendPutRequest(url, jsonPayload);
     }
-    public static String destroyCluster(String jobId, long clusterId)throws IOException{
-        if(!active) {
-            return "";
-        }
-        String endpoint = "DestroyCluster";
-        String url = BASE_URL + endpoint  + "/" + jobId+ "/" + clusterId;
-        return sendDeleteRequest(url);
-    }
-    public static String destroyWorker(String jobId, long clusterId, long workerId)throws IOException{
-        if(!active) {
-            return "";
-        }
-        String endpoint = "DestroyWorker";
-        String url = BASE_URL + endpoint  + "/" + jobId+ "/" + clusterId + "/" + workerId;
-        return sendDeleteRequest(url);
-    }
-    private static String sendDeleteRequest(String url) throws IOException {
-        return "probando";
-        /*try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpDelete httpDelete = new HttpDelete(url);
-            try (CloseableHttpResponse response = client.execute(httpDelete)) {
-                return EntityUtils.toString(response.getEntity());
-            }
-        }
 
-         */
-    }
-    private static String sendDeleteRequest(String url, String jsonPayload) throws IOException {
-        return "probando";
-
-        /*try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpDeleteWithBody httpDelete = new HttpDeleteWithBody(url);
-            httpDelete.setHeader("Content-Type", "application/json");
-            httpDelete.setEntity(new StringEntity(jsonPayload));
-            try (CloseableHttpResponse response = client.execute(httpDelete)) {
-                return "\nResponse:"+EntityUtils.toString(response.getEntity());
-                //return EntityUtils.toString(response.getEntity());
-            }
-        }
-
-         */
-    }
     private static String sendPostRequest(String url, String jsonPayload) throws IOException {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setEntity(new StringEntity(jsonPayload));
             try (CloseableHttpResponse response = client.execute(httpPost)) {
-                //return EntityUtils.toString(response.getEntity());
-                //return jsonPayload;
                 return "\nResponse:"+EntityUtils.toString(response.getEntity());
             }
         }
@@ -165,8 +100,6 @@ public class DBUpdateService{
             httpPut.setHeader("Content-Type", "application/json");
             httpPut.setEntity(new StringEntity(jsonPayload));
             try (CloseableHttpResponse response = client.execute(httpPut)) {
-                //return EntityUtils.toString(response.getEntity());
-                //return jsonPayload;
                 return "\nResponse:"+EntityUtils.toString(response.getEntity());
             }
         }

@@ -1,9 +1,6 @@
 package org.ignis.backend.ui;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.fasterxml.jackson.databind.SerializationFeature;
 import org.ignis.backend.cluster.*;
-import org.ignis.backend.cluster.tasks.ITask;
 import org.ignis.backend.cluster.tasks.ITaskGroup;
 import org.ignis.properties.IKeys;
 import org.ignis.properties.IProperties;
@@ -19,36 +16,15 @@ import java.util.stream.Collectors;
 
 public class ComplexJsonMapper {
 
-    //private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
-    /*public static String cleanAndFormatJson(String jsonPayload) {
-        try {
-            // Remove any "JsonPayload" prefix if present
-            if (jsonPayload.startsWith("JsonPayload")) {
-                jsonPayload = jsonPayload.substring("JsonPayload".length());
-            }
-
-            // Parse the JSON to validate and remove any invalid characters
-            Object json = objectMapper.readValue(jsonPayload, Object.class);
-
-            // Write the JSON back to a string, properly formatted
-            return objectMapper.writeValueAsString(json);
-        } catch (Exception e) {
-            // If there's an error, return the original string and log the error
-            System.err.println("Error cleaning JSON payload: " + e.getMessage());
-            return jsonPayload;
-        }
-    }*/
-    private static <T> String safeAppend(StringBuilder sb, String key, T value, Function<T, String> mapper) {
+    private static <T> void safeAppend(StringBuilder sb, String key, T value, Function<T, String> mapper) {
         if (value != null) {
             sb.append(", \"").append(key).append("\": ");
             sb.append(mapper.apply(value));
         }
-        return sb.toString();
     }
 
-    private static String safeAppendString(StringBuilder sb, String key, String value) {
-        return safeAppend(sb, key, value, v -> "\"" + v + "\"");
+    private static void safeAppendString(StringBuilder sb, String key, String value) {
+        safeAppend(sb, key, value, v -> "\"" + v + "\"");
     }
     private static void safeAppendList(StringBuilder sb, String key, List<String> values) {
         if (values != null && !values.isEmpty()) {
@@ -60,11 +36,11 @@ public class ComplexJsonMapper {
         }
     }
 
-    private static String safeAppendNumber(StringBuilder sb, String key, Number value) {
-        return safeAppend(sb, key, value, Object::toString);
+    private static void safeAppendNumber(StringBuilder sb, String key, Number value) {
+        safeAppend(sb, key, value, Object::toString);
     }
 
-    private static <T> String safeAppendCollection(StringBuilder sb, String key, Collection<T> collection, Function<T, String> elementMapper) {
+    private static <T> void safeAppendCollection(StringBuilder sb, String key, Collection<T> collection, Function<T, String> elementMapper) {
         if (collection != null && !collection.isEmpty()) {
             sb.append(", \"").append(key).append("\": [");
             boolean first = true;
@@ -77,7 +53,6 @@ public class ComplexJsonMapper {
             }
             sb.append("]");
         }
-        return sb.toString();
     }
 
     private static List<IContainer> executorstoContainers(List<IExecutor> executors) {
@@ -158,14 +133,6 @@ public class ComplexJsonMapper {
         safeAppendCollection(sb, "containers", containers, ComplexJsonMapper::ContainerMapper);
         sb.append("}");
 
-        return sb.toString().replaceFirst("^\\{, ", "{");
-    }
-    static String containersDestroyBuilder(String jobId, long clusterId, List<Long> containerids) {
-        StringBuilder sb = new StringBuilder("{");
-        safeAppendString(sb, "jobId", jobId);
-        safeAppendNumber(sb, "clusterId", clusterId);
-        safeAppend(sb, "containerIds", containerids, containers -> containers.toString());
-        sb.append("}");
         return sb.toString().replaceFirst("^\\{, ", "{");
     }
 
@@ -266,7 +233,6 @@ public class ComplexJsonMapper {
 
     private static String VolumeMapper(IVolume volume) {
         if (volume == null) return "{}";
-
         StringBuilder sb = new StringBuilder("{");
         safeAppendString(sb, "containerPath", volume.getContainerPath());
         safeAppendNumber(sb, "size", volume.getSize());
@@ -282,29 +248,25 @@ public class ComplexJsonMapper {
         if (taskgroup == null) return "{}";
         StringBuilder sb = new StringBuilder("{");
         safeAppendCollection(sb, "tasks", taskgroup.getTasks(),
-                task -> "{\"name\": \"" +((ITask)task).getClass().getName().replaceAll("^.*\\.", "")+" <-- "+((ITask)task).getName() + "\"}");
+                task -> "{\"name\": \"" +task.getClass().getName().replaceAll("^.*\\.", "")+" <-- "+task.getName() + "\"}");
         safeAppendDependencies(sb, taskgroup.getDepencencies());
         safeAppendCollection(sb, "subTasksGroup", taskgroup.getSubTasksGroup(), ComplexJsonMapper::TaskgroupMapper);
         sb.append("}");
         return sb.toString().replaceFirst("^\\{, ", "{");
     }
 
-    private static String safeAppendDependencies(StringBuilder sb, List<ITaskGroup> dependencies) {
-        return safeAppendCollection(sb, "dependencies", dependencies,
+    private static void safeAppendDependencies(StringBuilder sb, List<ITaskGroup> dependencies) {
+        safeAppendCollection(sb, "dependencies", dependencies,
                 taskgroup -> {
                     String taskclass = taskgroup.getTasks().get(0).getClass().getName().replaceAll("^.*\\.", "");
                     String taskName = taskgroup.getTasks().get(0).getName();
 
-                    switch (taskclass) {
-                        case "IContainerCreateTask":
-                            return "{\"class\": \"Cluster\", \"parent\": \"" + taskName + "\"}";
-                        case "IExecutorCreateTask":
-                            return "{\"class\": \"Worker\", \"parent\": \"" + taskName + "\"}";
-                        case "ICacheTask":
-                            return "{\"class\": \"Dataframe\", \"parent\": \"" + taskName + "\"}";
-                        default:
-                            return TaskgroupMapper(taskgroup);
-                    }
+                    return switch (taskclass) {
+                        case "IContainerCreateTask" -> "{\"class\": \"Cluster\", \"parent\": \"" + taskName + "\"}";
+                        case "IExecutorCreateTask" -> "{\"class\": \"Worker\", \"parent\": \"" + taskName + "\"}";
+                        case "ICacheTask" -> "{\"class\": \"Dataframe\", \"parent\": \"" + taskName + "\"}";
+                        default -> TaskgroupMapper(taskgroup);
+                    };
                 }
         );
     }

@@ -24,13 +24,8 @@ import org.ignis.properties.IKeys;
 import org.ignis.scheduler.IScheduler;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.ignis.backend.ui.DBUpdateService.destroyManyContainers;
-import static org.ignis.backend.ui.DBUpdateService.upsertManyContainers;
 
 /**
  * @author César Pomar
@@ -99,20 +94,8 @@ public final class IContainerDestroyTask extends IContainerTask {
             LOGGER.warn(log() + "Containers destroyed with errors: " + ex);
         }
 
-        for (int i = 0; i < containers.size(); i++) {
-            containers.get(i).setInfo(null);
+        for (IContainer iContainer : containers) {
+            iContainer.setInfo(null);
         }
-        try {
-
-            List<Long> containerids = containers.stream()
-                    .map(IContainer::getId)  // Extract the id using method reference
-                    .toList();
-            //upsertManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containers);
-            destroyManyContainers(container.getProperties().getProperty(IKeys.JOB_ID),container.getCluster(), containerids);
-        } catch (IOException e) {
-            LOGGER.info(log() +"Error while updating container: "+container.getId());
-        }
-
     }
-
 }
